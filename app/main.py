@@ -6,7 +6,7 @@ import pandas as pd
 import numpy as np
 import tensorflow as tf
 from tensorflow.keras.preprocessing import image
-
+import shutil
 
 bird_dex = pd.read_csv("/code/app/dict_liste_oiseaux.csv")
 app = FastAPI()
@@ -20,10 +20,10 @@ def home():
 @app.post('/predict/')
 async def get_prediction(file: UploadFile(...)):
     try:
-        path = "Image/"+file.filename
+        path = "/code/Image/img.png"
         contents = await file.read()
         with open(path, 'wb') as f:
-            f.write(contents)
+            shutil.copyfileobj(file.file, f)
     except Exception:
         return {"message": "There was an error uploading the file"}
     finally:
