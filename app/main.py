@@ -13,7 +13,7 @@ model = keras.models.load_model('/code/app/model.h5')
 def home():
     return({"Bienvenue" : "bienvenue"})
 
-@app.post('/predict')
+@app.post('/predict/')
 async def get_prediction(request : Request):
     
     mat = await request.json()
