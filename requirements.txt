@@ -1,0 +1,7 @@
+python
+tensorflow
+uvicorn
+pandas
+fastapi
+pydantic
+gunicorn
