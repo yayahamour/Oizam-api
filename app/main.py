@@ -19,8 +19,8 @@ def home():
 
 @app.post('/predict/')
 async def get_prediction(file: UploadFile(...)):
-    img = image.load_img(file, target_size=(299, 299))
-    img_array = image.img_to_array(img)
+    # img = image.load_img(file, target_size=(299, 299))
+    img_array = image.img_to_array(file)
     img_batch = np.expand_dims(img_array, axis=0)
     preprocessed_image = tf.keras.applications.xception.preprocess_input(img_batch)
 
