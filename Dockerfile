@@ -2,12 +2,12 @@ FROM python:3.8.13
 
 WORKDIR /code
 
-RUN apt-get update
-
 COPY ./requirements.txt /code/requirements.txt
 
-RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
+RUN pip install -r /code/requirements.txt
 
-COPY ./ /code/app
+COPY ./app /code/app
 
-CMD python main.py
+ENTRYPOINT [ "python" ]
+
+CMD [ "app/main.py" ]
