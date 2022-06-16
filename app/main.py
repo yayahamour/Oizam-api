@@ -4,9 +4,9 @@ import uvicorn
 import os
 import pandas as pd
 
-bird_dex = pd.read_csv("dict_liste_oiseaux.csv")
+bird_dex = pd.read_csv("/code/app/dict_liste_oiseaux.csv")
 app = FastAPI()
-model = keras.models.load_model('model.h5')
+model = keras.models.load_model('/code/app/model.h5')
 
 
 @app.get('/')
