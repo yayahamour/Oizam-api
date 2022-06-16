@@ -1,12 +1,8 @@
-from fastapi import FastAPI, Request, File, UploadFile
+from fastapi import FastAPI, Request
 from tensorflow import keras
 import uvicorn
 import os
 import pandas as pd
-import numpy as np
-import tensorflow as tf
-from tensorflow.keras.preprocessing import image
-import shutil
 
 bird_dex = pd.read_csv("/code/app/dict_liste_oiseaux.csv")
 app = FastAPI()
@@ -17,23 +13,12 @@ model = keras.models.load_model('/code/app/model.h5')
 def home():
     return({"Bienvenue" : "bienvenue"})
 
-@app.post('/predict/')
-async def get_prediction(file: UploadFile(...)):
-    try:
-        path = "/code/Image/img.png"
-        contents = await file.read()
-        with open(path, 'wb') as f:
-            shutil.copyfileobj(file.file, f)
-    except Exception:
-        return {"message": "There was an error uploading the file"}
-    finally:
-        await file.close()
-    img = image.load_img(path, target_size=(299, 299))
-    img_array = image.img_to_array(img)
-    img_batch = np.expand_dims(img_array, axis=0)
-    preprocessed_image = tf.keras.applications.xception.preprocess_input(img_batch)
-
-    predict = model.predict(preprocessed_image)
+@app.get('/predict/')
+async def get_prediction(request : Request):
+    
+    mat = await request.json()
+    mat = eval(mat)
+    predict = model.predict(mat['Image'])
     predict = predict.argmax() + 1
 
     return({"result" : bird_dex[bird_dex['number'] == predict]["name"].values[0]})
