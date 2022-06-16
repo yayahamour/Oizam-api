@@ -1,6 +1,4 @@
 from fastapi import FastAPI, Request
-from matplotlib import image
-from pandas import array
 from tensorflow import keras
 import uvicorn
 import os
